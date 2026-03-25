@@ -47,7 +47,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <TitleBar x:Name="AppTitleBar" Title="WinUI Notes">
+        <TitleBar x:Name="AppTitleBar" Title="WinUI Notes"
+                  IsBackButtonVisible="True"
+                  IsBackButtonEnabled="{x:Bind rootFrame.CanGoBack, Mode=OneWay}"
+                  BackRequested="AppTitleBar_BackRequested">
             <TitleBar.IconSource>
                 <FontIconSource Glyph="&#xF4AA;"/>
             </TitleBar.IconSource>

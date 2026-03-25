@@ -29,5 +29,17 @@ namespace WinUINotes.Views
         {
             InitializeComponent();
         }
+
+        private void NewNoteButton_Click(object sender, RoutedEventArgs e)
+        {
+            // 每個 Page 都有一個 Frame 屬性
+            Frame.Navigate(typeof(NotePage));
+        }
+
+        private void ItemsView_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
+        {
+            Frame.Navigate(typeof(NotePage), args.InvokedItem);
+        }
     }
+    
 }

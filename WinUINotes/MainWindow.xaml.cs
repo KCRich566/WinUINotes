@@ -38,5 +38,12 @@ namespace WinUINotes
             // 設定視窗的titleBar指向在xaml中定義的AppTitleBar, 使他可以被拖曳移動
             SetTitleBar(AppTitleBar);
         }
+        private void AppTitleBar_BackRequested(TitleBar sender, object args)
+        {
+            if(rootFrame.CanGoBack == true)
+            {
+                rootFrame.GoBack();
+            }
+        }
     }
 }

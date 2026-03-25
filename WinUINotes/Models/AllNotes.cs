@@ -10,6 +10,9 @@ namespace WinUINotes.Models
 {
     public class AllNotes
     {
+        // 這是一個特別的集合，適用於數據系結。當列出多個專案，
+        // 例如 ItemsView 的控件系結至 ObservableCollection時，兩者會一起運作，以自動讓專案清單與集合保持同步
+
         public ObservableCollection<Note> Notes { get; set; } = new ObservableCollection<Note>();
         public AllNotes()
         {
@@ -21,6 +24,7 @@ namespace WinUINotes.Models
             Notes.Clear();
 
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+            // 從資料夾讀取所有檔案(Recursive)
             await GetFilesInFolderAsync(storageFolder);
         }
 

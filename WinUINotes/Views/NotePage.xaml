@@ -22,7 +22,11 @@
         </Grid.ColumnDefinitions>
 
         <!--AcceptsReturn: 多行文字輸入的控制-->
-
+        <!--Text="{x:Bind noteModel.Text, Mode=TwoWay}": 將Text與noteModel.Text繫結-->
+        <!--Header="{x:Bind noteModel.Date.ToString()}": 將Header與noteModel.Date.ToString() 預設是One Time-->
+        <!--這裡你沒有寫 Mode，那 預設就是單向 (OneTime) 或 OneWay)，在 x:Bind 裡：
+        如果綁定的是 方法或表達式（像 ToString()），預設是 OneTime
+        如果綁定的是 屬性，預設是 OneWay(Model 到Viewbox) -->
         <TextBox x:Name="NoteEditor"
                  Text="{x:Bind noteModel.Text, Mode=TwoWay}"
                  AcceptsReturn="True"

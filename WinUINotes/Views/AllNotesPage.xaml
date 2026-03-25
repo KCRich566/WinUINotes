@@ -9,17 +9,27 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <!--這會從的 Page 屬性取得 ResourceDictionary-->
     <Page.Resources>
         <DataTemplate x:Key="NoteItemTemplate" x:DataType="models:Note">
-            <ItemContainer>
-                <Grid Background="LightGray">
+            <ItemContainer CornerRadius="{StaticResource OverlayCornerRadius}">
+                <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                      BorderThickness="1"
+                      BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                      CornerRadius="{StaticResource OverlayCornerRadius}">
+                    
                     <Grid.RowDefinitions>
                         <RowDefinition Height="120"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{x:Bind Text}" Margin="12,8" TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
-                    <Border Grid.Row="1" Padding="8,6,0,6" Background="Gray">
-                        <TextBlock Text="{x:Bind Date}" Foreground="White"/>
+                    <TextBlock Text="{x:Bind Text}" Margin="12,8" 
+                               TextWrapping="Wrap" TextTrimming="WordEllipsis"/>
+                    
+                    <Border Grid.Row="1" Padding="8,6,0,6" 
+                            Background="{ThemeResource SubtleFillColorSecondaryBrush}">
+                        <TextBlock Text="{x:Bind Date}" 
+                                   Style="{StaticResource CaptionTextBlockStyle}"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
                     </Border>
                 </Grid>
             </ItemContainer>
@@ -31,17 +41,34 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+        <!--CommandBar 是 工具列 / 功能列，常放在頁面頂部或底部-->
         <CommandBar DefaultLabelPosition="Right">
-            <AppBarButton Icon="Add" Label="New note"/>
+            <AppBarButton Icon="Add" Label="New note" Click="NewNoteButton_Click"/>
             <CommandBar.Content>
                 <TextBlock Text="Quick notes" Margin="16,8" Style="{ThemeResource SubtitleTextBlockStyle}"/>
             </CommandBar.Content>
         </CommandBar>
+        <!--一種 格子排列方式-->
+        <!--必須指定 DataTemplate ，以告知 ItemsView 應該如何顯示資料項. ItemsView.ItemTemplate 會根據宣告產生 XAML-->
 
-        <ItemsView ItemsSource="{x:Bind notesModel.Notes}" Grid.Row="1" Padding="24" ItemTemplate="{StaticResource NoteItemTemplate}">
+        <!--SelectionMode="None": None, Single, Multiple, Extended
+        IsItemInvokedEnabled="True" 控制是否允許觸發 ItemInvoked 事件
+        ItemInvoked="ItemsView_ItemInvoked": 事件處理器，當使用者觸發項目時執行-->
+        <ItemsView 
+            ItemsSource="{x:Bind notesModel.Notes}" 
+            Grid.Row="1" Padding="24" 
+            ItemTemplate="{StaticResource NoteItemTemplate}"
+            SelectionMode="None"
+            IsItemInvokedEnabled="True"
+            ItemInvoked="ItemsView_ItemInvoked"
+            >
             <ItemsView.Layout>
-                <UniformGridLayout MinItemWidth="200" MinColumnSpacing="12" MinRowSpacing="12" ItemsJustification="Start"/>
+                <!--ItemsJustification: 格子排列對齊方式-->
+                <UniformGridLayout 
+                    MinItemWidth="200" 
+                    MinColumnSpacing="12" 
+                    MinRowSpacing="12" 
+                    ItemsJustification="Start"/>
             </ItemsView.Layout>
         </ItemsView>
     </Grid>

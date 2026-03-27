@@ -16,7 +16,8 @@ namespace WinUINotes.Models
         public ObservableCollection<Note> Notes { get; set; } = new ObservableCollection<Note>();
         public AllNotes()
         {
-            LoadNotes();
+            // 筆記將在頁面 OnNavigatedTo 時載入, 這是為了確保每次返回頁面時都會重新載入筆記, 以反映任何更改, 避免重複載入
+            // LoadNotes();
         }
 
         public async void LoadNotes()

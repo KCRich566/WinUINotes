@@ -18,6 +18,26 @@
                       BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                       CornerRadius="{StaticResource OverlayCornerRadius}">
                     
+                    <!--新增右鍵選單, 因為是要在每個ItemContainer上顯示, 所以放在此DataTemplate中-->
+                    <Grid.ContextFlyout>
+                        <MenuFlyout>
+                            <!--透過 Tag="{x:Bind}" 傳遞 Note 物件, 因為x:DataType已經定義了Note類別. 所以在此不寫路徑表示使用"."(也就是Note物件)
+                            但如果想要儲存FileName, 可以改成 Tag="{x:Bind FileName}" 這樣在事件處理器就會直接拿到FileName字串-->
+              
+                            <MenuFlyoutItem Text="Delete" Tag="{x:Bind}" Click="DeleteNote_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <SymbolIcon Symbol="Delete"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Export" Tag="{x:Bind}" Click="ExportNote_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <SymbolIcon Symbol="Upload"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </Grid.ContextFlyout>
+                    
+                    
                     <Grid.RowDefinitions>
                         <RowDefinition Height="120"/>
                         <RowDefinition Height="Auto"/>
@@ -42,8 +62,17 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--CommandBar 是 工具列 / 功能列，常放在頁面頂部或底部-->
+        <!--DefaultLabelPosition: 定義AppBarButton的Label要在ICON的哪邊-->
         <CommandBar DefaultLabelPosition="Right">
             <AppBarButton Icon="Add" Label="New note" Click="NewNoteButton_Click"/>
+            <AppBarSeparator/>
+            <AppBarButton Icon="Delete" Label="Delete" Click="DeleteSelected_Click"/>
+            <AppBarButton Icon="Upload" Label="Export" Click="ExportSelected_Click"/>
+            <AppBarButton Label="Import" Click="ImportNotes_Click">
+                <AppBarButton.Icon>
+                    <SymbolIcon Symbol="Import"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
             <CommandBar.Content>
                 <TextBlock Text="Quick notes" Margin="16,8" Style="{ThemeResource SubtitleTextBlockStyle}"/>
             </CommandBar.Content>
@@ -55,10 +84,11 @@
         IsItemInvokedEnabled="True" 控制是否允許觸發 ItemInvoked 事件
         ItemInvoked="ItemsView_ItemInvoked": 事件處理器，當使用者觸發項目時執行-->
         <ItemsView 
+            x:Name="NotesItemsView"
             ItemsSource="{x:Bind notesModel.Notes}" 
             Grid.Row="1" Padding="24" 
             ItemTemplate="{StaticResource NoteItemTemplate}"
-            SelectionMode="None"
+            SelectionMode="Multiple"
             IsItemInvokedEnabled="True"
             ItemInvoked="ItemsView_ItemInvoked"
             >

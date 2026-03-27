@@ -4,7 +4,7 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="WinUINotes/WinUINotes.csproj">
+  <Project Path="C:/Users/KCRic/Desktop/Code/WinUINotes/WinUINotes/WinUINotes.csproj">
     <Platform Solution="*|ARM64" Project="ARM64" />
     <Platform Solution="*|x64" Project="x64" />
     <Platform Solution="*|x86" Project="x86" />

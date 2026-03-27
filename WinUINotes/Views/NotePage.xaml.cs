@@ -18,6 +18,8 @@ using WinUINotes.Models;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
+// 這個與namespace XXX{...}的宣告方式是一樣的.
+// 只是下面的是C#10的新功能
 namespace WinUINotes.Views;
 
 /// <summary>
@@ -43,6 +45,10 @@ public sealed partial class NotePage : Page
         if (noteModel is not null)
         {
             await noteModel.SaveAsync();
+        }
+        if (Frame.CanGoBack == true)
+        {
+            Frame.GoBack();
         }
     }
 

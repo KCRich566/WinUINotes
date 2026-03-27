@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using Windows.Storage;
 
-namespace WinUINotes.Models
+namespace Test.Models
 {
     public class AllNotes
     {
-        // 這是一個特別的集合，適用於數據系結。當列出多個專案，
-        // 例如 ItemsView 的控件系結至 ObservableCollection時，兩者會一起運作，以自動讓專案清單與集合保持同步
-
         public ObservableCollection<Note> Notes { get; set; } = new ObservableCollection<Note>();
+
         public AllNotes()
         {
             LoadNotes();
@@ -22,24 +20,14 @@ namespace WinUINotes.Models
         public async void LoadNotes()
         {
             Notes.Clear();
-
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-            // 從資料夾讀取所有檔案(Recursive)
+
             await GetFilesInFolderAsync(storageFolder);
         }
 
-        public async Task DeleteNotesAsync(IEnumerable<Note> notes)
-        {
-            foreach (Note note in notes)
-            {
-                await note.DeleteAsync();
-                Notes.Remove(note);
-            }
-        }
         private async Task GetFilesInFolderAsync(StorageFolder folder)
         {
-            // 先取得第一層的所有檔案和資料夾
-            IReadOnlyList<IStorageItem> storageItems = await folder.GetItemsAsync();
+            IReadOnlyCollection<IStorageItem> storageItems = await folder.GetItemsAsync();
 
             foreach (IStorageItem item in storageItems)
             {
@@ -52,7 +40,7 @@ namespace WinUINotes.Models
                     StorageFile file = (StorageFile)item;
                     Note note = new Note()
                     {
-                        Filename = file.Name,
+                        FileName = file.Name,
                         Text = await FileIO.ReadTextAsync(file),
                         Date = file.DateCreated.DateTime
                     };
